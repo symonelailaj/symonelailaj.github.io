@@ -38,11 +38,14 @@ $(function () {
     // Create platforms
     // You must decide the x position, y position, width, and height of the platforms
     // example usage: createPlatform(x,y,width,height)
-createPlatform(100,700,200,20);
-createPlatform(0, 615, 100, 20);
-createPlatform(350,250,50,20);
-createPlatform(700,250,60,20)
-createPlatform( 1050,500,80,200);
+    createPlatform(50, 700, 150, 20); // Bottom-left platform
+    createPlatform(250, 600, 200, 20); // Mid-left platform
+    createPlatform(500, 500, 150, 20); // Center-left platform
+    createPlatform(800, 400, 120, 20); // Center-right platform
+    createPlatform(1000, 300, 180, 20); // Top-right platform
+    createPlatform(400, 200, 200, 20); // High center platform
+    createPlatform(200, 100, 120, 20); // High-left platform
+    createPlatform(700, 100, 160, 20); // High-right platform
 
 
     
@@ -53,6 +56,7 @@ createPlatform( 1050,500,80,200);
     // example usage: createCollectable(type, x, y, gravity, bounce)
      createCollectable("diamond", 1050,500,40,0.5);
      createCollectable("grace", 500, 300); 
+     createCollectable("database",700,400)
 
 
 
@@ -63,7 +67,7 @@ createPlatform( 1050,500,80,200);
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
     // example usage: createCannon(side, position, delay, width, height)
     createCannon("right", 600, 1000);
-
+     createCannon("bottom",600,1000);
 
     
     /////////////////////////////////////////////////
