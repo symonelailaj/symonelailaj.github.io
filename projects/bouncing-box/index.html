@@ -15,8 +15,7 @@
 			user-select: none;
 			display: block;
 			position: absolute;
-			top: 100px;
-			/* Change me! */
+			top: 100px; /* Change me! */
 			left: 0px;
 		}
 
@@ -24,8 +23,6 @@
 			height: 100vh;
 		}
 	</style>
-	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-
 </head>
 
 <body class="board">
@@ -41,15 +38,20 @@
 			/////////////////// SETUP DO NOT DELETE //////////////////////////
 			//////////////////////////////////////////////////////////////////
 
-			var box = jQuery('.box');	// reference to the HTML .box element
-			var board = jQuery('.board');	// reference to the HTML .board element
-			var boardWidth = board.width();	// the maximum X-Coordinate of the screen
+			var box = jQuery('.box'); // reference to the HTML .box element
+			var board = jQuery('.board'); // reference to the HTML .board element
+			var boardWidth = board.width(); // the maximum X-Coordinate of the screen
 
-			// Every 50 milliseconds, call the update Function (see below)
-			setInterval(update, 50);
+			// Every 50 milliseconds, call the update Function
+			var interval = setInterval(update, 50);
 
-			// Every time the box is clicked, call the handleBoxClick Function (see below)
+			// Every time the box is clicked, call the handleBoxClick Function
 			box.on('click', handleBoxClick);
+
+			// TODO 2 - Variable declarations
+			var positionX = 0; // Declare positionX
+			var points = 0; // Declare points
+			var speed = 10; // Declare speed
 
 			// moves the Box to a new position on the screen along the X-Axis
 			function moveBoxTo(newPositionX) {
@@ -65,19 +67,24 @@
 			/////////////////// YOUR CODE BELOW HERE /////////////////////////
 			//////////////////////////////////////////////////////////////////
 
-			// TODO 2 - Variable declarations 
-
-
-
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
 			it should move the Box to a new location. If the box drifts off the screen
 			turn it around! 
 			*/
 			function update() {
+				// Increase positionX by speed
+				positionX += speed; // Increment positionX
 
+				moveBoxTo(positionX); // Move the box to the new position
 
-			};
+				// Detect collisions
+				if (positionX > boardWidth) { // Right wall collision
+					speed = -speed; // Change direction
+				} else if (positionX < 0) { // Left wall collision
+					speed = -speed; // Change direction
+				}
+			}
 
 			/* 
 			This Function will be called each time the box is clicked. Each time it is called,
@@ -85,14 +92,17 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
+				positionX = 0; // Reset positionX
+				points++; // Increase points by 1
+				changeBoxText(points); // Update box text
 
-
-			};
-
-
-
-
-
+				// Increase speed based on current speed
+				if (speed > 0) {
+					speed += 3; // Increase speed if moving right
+				} else {
+					speed -= 3; // Decrease speed (in magnitude) if moving left
+				}
+			}
 		})();
 	</script>
 </body>

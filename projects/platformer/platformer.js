@@ -39,13 +39,13 @@ $(function () {
     // You must decide the x position, y position, width, and height of the platforms
     // example usage: createPlatform(x,y,width,height)
     createPlatform(50, 600, 150, 20); // Bottom-left platform
-    createPlatform(200, 550, 200, 20); // Mid-left platform
-    createPlatform(400, 500, 150, 20); // Center-left platform
-    createPlatform(600, 450, 120, 20); // Center-right platform
-    createPlatform(800, 400, 180, 20); // Top-right platform
-    createPlatform(400, 300, 200, 20); // High center platform
-    createPlatform(200, 200, 120, 20); // High-left platform
-    createPlatform(600, 200, 160, 20); // High-right platform
+createPlatform(200, 550, 200, 20); // Mid-left platform
+createPlatform(400, 500, 150, 20); // Center-left platform
+createPlatform(600, 450, 120, 20); // Center-right platform
+createPlatform(800, 400, 180, 10); // Top-right platform
+createPlatform(400, 300, 200, 10); // Lowered high center platform
+createPlatform(200, 250, 140, 20); // Slightly lower high-left platform
+createPlatform(288, 800, 160, 20); // Slightly lower high-right platform
 
 
 
@@ -55,9 +55,10 @@ $(function () {
     // You must decide on the collectable type, the x position, the y position, the gravity, and the bounce strength
     // Your collectable choices are 'database' 'diamond' 'grace' 'kennedi' 'max' and 'steve'; more can be added if you wish
     // example usage: createCollectable(type, x, y, gravity, bounce)
-      createCollectable("diamond", 850, 350, 50, 1);
-    createCollectable("grace", 400, 250, 50, 1);
-    createCollectable("database", 600, 300, 50, 1);
+    createCollectable("diamond", 850, 350, 50, 1);
+    createCollectable("grace", 400, 200, 50, 1); // Adjusted for easier reach
+    createCollectable("database", 600, 250, 50, 1); // Adjusted for easier reach
+    createCollectable("diamond",200, 250,90,1);
 
 
     
@@ -66,12 +67,14 @@ $(function () {
     // You must decide the wall you want the cannon on, the position on the wall, and the time between shots in milliseconds
     // Your wall choices are: 'top' 'left' 'right' and 'bottom'
     // example usage: createCannon(side, position, delay, width, height)
-    createCannon("right", 800, 500);
-    createCannon("bottom", 800, 600);
-    createCannon("left", 0, 500);
+    createCannon("right", 800, 500,200);
+    
+    createCannon("left", 0, 500,200);
+
+    createCannon("bottom",100,700,100);
 
     
-    /////////////////////////////////////////////////
+    ///////////////////////////////////////////////
     //////////ONLY CHANGE ABOVE THIS POINT///////////
     /////////////////////////////////////////////////
   }
