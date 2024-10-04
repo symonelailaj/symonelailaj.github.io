@@ -2,109 +2,130 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>Bouncing Box</title>
-	<script src="jquery.min.js"></script>
-	<style>
-		.box {
-			width: 70px;
-			height: 70px;
-			background-color: teal;
-			font-size: 300%;
-			text-align: center;
-			user-select: none;
-			display: block;
-			position: absolute;
-			top: 100px; /* Change me! */
-			left: 0px;
-		}
+    <meta charset="utf-8">
+    <title>Bouncing Heart</title>
+    <script src="jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #ffb3d9; 
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%),
+                              radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%);
+            background-size: 50px 50px; 
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow: hidden; 
+        }
 
-		.board {
-			height: 100vh;
-		}
-	</style>
+        .box {
+            position: absolute;
+            width: 150px; 
+            height: 150px; 
+            background-color: #d367d0; 
+            transform: rotate(-45deg); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            font-size: 80px; 
+            color: white;
+            user-select: Chrome 54 ; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+            transition: background-color 0.2s;
+        }
+
+        .box::before,
+        .box::after {
+            content: '';
+            position: absolute; 
+            width: 150px; 
+            height: 150px; 
+            background-color: #d367d0; 
+            border-radius: 50%; 
+        }
+
+        .box::before {
+            top: -75px; 
+            left: 0;
+        }
+
+        .box::after {
+            left: 75px; 
+            top: 0;
+        }
+
+        .board {
+            height: 100vh; 
+        }
+    </style>
 </head>
 
 <body class="board">
-	<!-- HTML for the box -->
-	<div class="box">?</div>
+    
+    <div class="box">0</div>
 
-	<script>
-		(function () {
-			'use strict'
-			/* global jQuery */
+    <script>
+        (function () {
+            'use strict'
+           
 
-			//////////////////////////////////////////////////////////////////
-			/////////////////// SETUP DO NOT DELETE //////////////////////////
-			//////////////////////////////////////////////////////////////////
+            var box = jQuery('.box');
+            var board = jQuery('.board'); 
+            var boardWidth = board.width(); 
+           
+            var interval = setInterval(update, 50);
 
-			var box = jQuery('.box'); // reference to the HTML .box element
-			var board = jQuery('.board'); // reference to the HTML .board element
-			var boardWidth = board.width(); // the maximum X-Coordinate of the screen
+            
+            box.on('click', handleBoxClick);
 
-			// Every 50 milliseconds, call the update Function
-			var interval = setInterval(update, 50);
+           
+            var positionX = 0; 
+            var points = 0; 
+            var speed = 10; 
 
-			// Every time the box is clicked, call the handleBoxClick Function
-			box.on('click', handleBoxClick);
+           
+            function moveBoxTo(newPositionX) {
+                box.css("left", newPositionX);
+            }
 
-			// TODO 2 - Variable declarations
-			var positionX = 0; // Declare positionX
-			var points = 0; // Declare points
-			var speed = 10; // Declare speed
+            
+            function changeBoxText(newText) {
+                box.text(newText);
+            }
 
-			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
-				box.css("left", newPositionX);
-			}
+           
+            function update() {
+                positionX += speed;
 
-			// changes the text displayed on the Box
-			function changeBoxText(newText) {
-				box.text(newText);
-			}
+                moveBoxTo(positionX);
 
-			//////////////////////////////////////////////////////////////////
-			/////////////////// YOUR CODE BELOW HERE /////////////////////////
-			//////////////////////////////////////////////////////////////////
+                if (positionX > boardWidth - 150) { // Adjust for heart width
+                    speed = -speed; // Reverse direction
+                } else if (positionX < 0) {
+                    speed = -speed; // Reverse direction
+                }
+            }
 
-			/* 
-			This Function will be called 20 times/second. Each time it is called,
-			it should move the Box to a new location. If the box drifts off the screen
-			turn it around! 
-			*/
-			function update() {
-				// Increase positionX by speed
-				positionX += speed; // Increment positionX
+            // Handle box click
+            function handleBoxClick() {
+                positionX = 0; // Reset position on click
+                points++; // Increment points
+                changeBoxText(points); // Update text with new points
 
-				moveBoxTo(positionX); // Move the box to the new position
+                // Change heart color on click
+                var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                box.css("background-color", randomColor);
 
-				// Detect collisions
-				if (positionX > boardWidth) { // Right wall collision
-					speed = -speed; // Change direction
-				} else if (positionX < 0) { // Left wall collision
-					speed = -speed; // Change direction
-				}
-			}
+                // Increase speed over time
+                speed += 2; // Gradually increase speed
 
-			/* 
-			This Function will be called each time the box is clicked. Each time it is called,
-			it should increase the points total, increase the speed, and move the box to
-			the left side of the screen.
-			*/
-			function handleBoxClick() {
-				positionX = 0; // Reset positionX
-				points++; // Increase points by 1
-				changeBoxText(points); // Update box text
-
-				// Increase speed based on current speed
-				if (speed > 0) {
-					speed += 3; // Increase speed if moving right
-				} else {
-					speed -= 3; // Decrease speed (in magnitude) if moving left
-				}
-			}
-		})();
-	</script>
+                // Reset to original color after a short duration
+                setTimeout(function() {
+                    box.css("background-color", "#d367d0"); // Reset to original color
+                }, 200);
+            }
+        })();
+    </script>
 </body>
 
 </html>
