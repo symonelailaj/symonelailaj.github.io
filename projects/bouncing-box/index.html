@@ -7,121 +7,132 @@
     <script src="jquery.min.js"></script>
     <style>
         body {
-            background-color: #ffb3d9; 
+            background-color: #ffb3d9;
             background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%),
-                              radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%);
-            background-size: 50px 50px; 
-            height: 100vh; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            overflow: hidden; 
+                radial-gradient(circle, rgba(255, 255, 255, 0.1) 20%, transparent 20%);
+            background-size: 50px 50px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
 
         .box {
             position: absolute;
-            width: 150px; 
-            height: 150px; 
-            background-color: #d367d0; 
-            transform: rotate(-45deg); 
-            display: flex; 
-            justify-content: center; 
+            width: 100px;
+            height: 100px;
+            background-color: #d367d0;
+            transform: rotate(-45deg);
+            display: flex;
+            justify-content: center;
             align-items: center;
-            font-size: 80px; 
-            color: white;
-            user-select: Chrome 54 ; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); 
+            font-size: 50px; 
+            color: white; 
+            user-select: Chrome 54;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
             transition: background-color 0.2s;
+            line-height: 1; 
         }
 
         .box::before,
         .box::after {
             content: '';
-            position: absolute; 
-            width: 150px; 
-            height: 150px; 
-            background-color: #d367d0; 
-            border-radius: 50%; 
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #d367d0;
+            border-radius: 50%;
         }
 
         .box::before {
-            top: -75px; 
+            top: -50px;
             left: 0;
         }
 
         .box::after {
-            left: 75px; 
+            left: 50px;
             top: 0;
         }
 
         .board {
-            height: 100vh; 
+            height: 100vh;
         }
     </style>
 </head>
 
 <body class="board">
-    
+
     <div class="box">0</div>
 
     <script>
         (function () {
             'use strict'
-           
 
             var box = jQuery('.box');
-            var board = jQuery('.board'); 
-            var boardWidth = board.width(); 
-           
-            var interval = setInterval(update, 50);
+            var board = jQuery('.board');
+            var boardWidth = board.width();
+            var boardHeight = board.height();
 
             
+            var speedX = Math.random() > 0.5 ? 6 : -6; 
+            var speedY = Math.random() > 0.5 ? 6 : -6; 
+
+            var positionX = 0;
+            var positionY = 0;
+            var points = 0;
+
+           
+            var interval = setInterval(update, 35);
+
             box.on('click', handleBoxClick);
 
-           
-            var positionX = 0; 
-            var points = 0; 
-            var speed = 10; 
-
-           
-            function moveBoxTo(newPositionX) {
-                box.css("left", newPositionX);
+            function moveBoxTo(newPositionX, newPositionY) {
+                box.css({
+                    "left": newPositionX + "px",
+                    "top": newPositionY + "px"
+                });
             }
 
-            
             function changeBoxText(newText) {
                 box.text(newText);
             }
 
-           
             function update() {
-                positionX += speed;
+                positionX += speedX;
+                positionY += speedY;
 
-                moveBoxTo(positionX);
+                moveBoxTo(positionX, positionY);
 
-                if (positionX > boardWidth - 150) { // Adjust for heart width
-                    speed = -speed; // Reverse direction
-                } else if (positionX < 0) {
-                    speed = -speed; // Reverse direction
+                
+                if (positionX > boardWidth - 100 || positionX < 0) { 
+                    speedX = -speedX; 
+                }
+
+                
+                if (positionY > boardHeight - 100 || positionY < 0) { 
+                    speedY = -speedY; 
                 }
             }
 
-            // Handle box click
+            
             function handleBoxClick() {
-                positionX = 0; // Reset position on click
-                points++; // Increment points
-                changeBoxText(points); // Update text with new points
+                positionX = Math.random() * (boardWidth - 100);
+                positionY = Math.random() * (boardHeight - 100); 
+                points++; 
+                changeBoxText(points); 
 
-                // Change heart color on click
+                
                 var randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
                 box.css("background-color", randomColor);
 
-                // Increase speed over time
-                speed += 2; // Gradually increase speed
+                
+                speedX += (speedX > 0 ? 2 : -2); 
+                speedY += (speedY > 0 ? 2 : -2); 
 
-                // Reset to original color after a short duration
-                setTimeout(function() {
-                    box.css("background-color", "#d367d0"); // Reset to original color
+                
+                setTimeout(function () {
+                    box.css("background-color", "#d367d0"); 
                 }, 200);
             }
         })();
